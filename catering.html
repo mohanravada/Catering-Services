@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Catering Services</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #fefefe;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    header {
+      background: url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092')  center/cover no-repeat;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+    }
+
+    header h1 {
+      font-size: 3rem;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 1rem 2rem;
+      border-radius: 10px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav a {
+      margin-left: 1rem;
+      text-decoration: none;
+      color: #444;
+      font-weight: bold;
+    }
+
+    .menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+.menu-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  padding: 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.menu-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.menu-card h4 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+  color: #e63946;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu-card p {
+  color: #555;
+  font-size: 0.95rem;
+}
+
+#menu h2, #menu h3 {
+  text-align: center;
+  margin-top: 2rem;
+  color: #333;
+}
+
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    section {
+      margin-bottom: 3rem;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .menu-item {
+      margin-bottom: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    button {
+      background: #e63946;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #d62828;
+    }
+
+    footer {
+      background: #f4f4f4;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2rem;
+        text-align: center;
+      }
+
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav a {
+        margin: 0.5rem 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div><strong>JeeMoNa Catering Services</strong></div>
+    <div>
+      <a href="#about">About</a>
+      <a href="#menu">Menu</a>
+      <a href="#booking">Booking</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <header>
+    <h1>Delicious Moments Catered for You</h1>
+  </header>
+
+  <div class="container">
+    
+    <section id="about">
+        <h2>About Us</h2>
+        <p>We’re a trio of friends brought together by our shared love for food and hospitality. What started as a passion project in our kitchens has grown into <strong>JeeMoNa Catering Services</strong> — a heartfelt service built on trust, flavor, and unforgettable experiences.</p>
+        <p>Each of us brings something unique to the table: from traditional Indian family recipes passed down through generations, to fresh, modern takes on classic dishes. Whether it’s a cozy family gathering, a grand wedding, or a corporate event, we pour our hearts into every meal we serve.</p>
+        <p>We may have started small, but our dreams (and appetites) are big. And now, we’re here to bring those flavors to your table.</p>
+        <p><em>From our kitchen to your celebration — with love,</em><br><strong><section id="about">JeeMoNa Catering Services</strong></p>
+      </section>
+      
+    
+<section id="menu">
+    <h2>Our Menu</h2>
+  
+
+    <h3>Breakfast</h3>
+    <div class="menu-grid">
+      <div class="menu-card">
+        <img src="Veg Tiffins.jpg" alt="Aloo Paratha" style="width:100%; border-radius: 10px;">
+        <h4>Veg Tiffins</h4><span>₹80</span></h4>
+        <p>Serves Tiffins with chutnies,podies,curd</p>
+      </div>
+      <div class="menu-card">
+        <img src="Non Veg Tiffins.jpg" alt="M" style="width:100%; border-radius: 10px;">
+        <h4>Non Veg Tiffins<span>₹150</span></h4>
+        <p>Serves Tiffins with NOn-veg Curries and Fries.</p>
+      </div>
+      <div class="menu-card">
+        <img src="Tiffins.jpg" alt="Idli and Vada" style="width:100%; border-radius: 10px;">
+        <h4>coustmized Menu <span>₹200</span></h4>
+        <p>We Serve Food As Your wanted menu list.</p>
+      </div>
+    </div>
+  
+    
+    <h3>Lunch</h3>
+    <div class="menu-grid">
+      <div class="menu-card">
+        <img src="veg meals.jpg" alt="Veg meals" style="width:100%; border-radius: 10px;">
+        <h4>Veg Meals <span>₹180</span></h4>
+        <p>serve pure veg curries with rice and sweets.</p>
+      </div>
+      <div class="menu-card">
+        <img src="Non Veg Meals.jpg" alt="NOn-veg" style="width:100%; border-radius: 10px;">
+        <h4>Non Veg Meals<span>₹320</span></h4>
+        <p>Serve non-veg curries and fries with rice and sweets.</p>
+      </div>
+      <div class="menu-card">
+        <img src="Customize meals.jpg" alt="Customize meal" style="width:100%; border-radius: 10px;">
+        <h4>Customize Meals <span>₹400</span></h4>
+        <p>We Serve Food As Your wanted menu list.</p>
+      </div>
+    </div>
+  
+    
+    <h3>Dinner</h3>
+    <div class="menu-grid">
+      <div class="menu-card">
+        <img src="butter chicken.jpg" alt="Butter Chicken" style="width:100%; border-radius: 10px;">
+        <h4> Butter Chicken <span>₹220</span></h4>
+        <p>Tender chicken cooked in a creamy tomato-based gravy.</p>
+      </div>
+      <div class="menu-card">
+        <img src="rajma chawal.jpg" alt="Rajma Chawal" style="width:100%; border-radius: 10px;">
+        <h4>Rajma Chawal <span>₹130</span></h4>
+        <p>Kidney beans curry served with steamed rice.</p>
+      </div>
+      <div class="menu-card">
+        <img src="garlic naan.jpg" alt="Garlic Naan" style="width:100%; border-radius: 10px;">
+        <h4> Garlic Naan <span>₹40</span></h4>
+        <p>Soft Indian bread topped with fresh garlic and coriander.</p>
+      </div>
+    </div>
+  </section>
+  
+      
+
+
+    <section id="booking">
+      <h2>Book Our Services</h2>
+      <p>Please fill out the form and we'll get back to you within 24 hours.</p>
+      <form>
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="name" required />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" required />
+        </div>
+
+        <div class="form-group">
+          <label for="event">Event Type</label>
+          <select id="event" name="event" required>
+            <option value="" disabled selected>Select an event type</option>
+            <option value="wedding">Wedding</option>
+            <option value="corporate">Corporate</option>
+            <option value="birthday">Birthday</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="date">Event Date</label>
+          <input type="date" id="date" name="date" required />
+        </div>
+
+        <div class="form-group">
+          <label for="details">Additional Details</label>
+          <textarea id="details" name="details" rows="4" placeholder="Tell us more about your event..."></textarea>
+        </div>
+
+        <button type="submit">Submit Booking</button>
+      </form>
+    </section>
+
+    
+    <section id="contact">
+      <h2>Contact Us</h2>
+      <p><strong>📍 Address:</strong>Viskhapatnam Andhra Pradesh-530009</p>
+      <p><strong>📞 Phone:</strong> <a href="tel:+91 8688522371" >+91 8688522371</a></p>
+      <p><strong>✉️ Email:</strong><a href="mail to:jeemona@catering.com">jeemona@catering.com</a></p>
+      <form>
+        <div class="form-group">
+          <label for="messageName">Your Name</label>
+          <input type="text" id="messageName" name="messageName" required />
+        </div>
+        <div class="form-group">
+          <label for="messageText">Message</label>
+          <textarea id="messageText" name="messageText" rows="4" placeholder="Ask us anything..."></textarea>
+        </div>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+  </div>
+
+  <footer>
+    &copy; 2025 JeeMoNa Catering Services. All rights reserved.
+  </footer>
+</body>
+</html>
