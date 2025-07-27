@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JeeMoNa Catering Services</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #e63946;
+      --primary-dark: #d62828;
+      --secondary: #f1faee;
+      --dark: #1d3557;
+      --light: #f8f9fa;
+      --success: #2a9d8f;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #fefefe;
+      color: #333;
+      line-height: 1.6;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    /* Preloader */
+    .preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--dark);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
+
+    .preloader.fade-out {
+      opacity: 0;
+    }
+
+    .loader {
+      width: 50px;
+      height: 50px;
+      border: 5px solid var(--primary);
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 1s linear infinite;
+    }
+
+    /* Auth Modal */
+    .auth-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .auth-container {
+      background: white;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 400px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      transform: translateY(-50px);
+      opacity: 0;
+      animation: slideUp 0.4s 0.2s forwards;
+      position: relative;
+    }
+
+    .auth-tabs {
+      display: flex;
+    }
+
+    .auth-tab {
+      flex: 1;
+      padding: 15px;
+      text-align: center;
+      background: #eee;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .auth-tab.active {
+      background: white;
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    .auth-content {
+      padding: 30px;
+    }
+
+    .auth-form {
+      display: none;
+    }
+
+    .auth-form.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .close-auth {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #777;
+      transition: color 0.3s ease;
+    }
+
+    .close-auth:hover {
+      color: var(--primary);
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                  url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092') center/cover no-repeat;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header-content {
+      transform: translateY(50px);
+      opacity: 0;
+      animation: slideUp 1s 0.5s forwards;
+    }
+
+    header h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+      background: none;
+      padding: 0;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+
+    .header-btns {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 12px 25px;
+      border-radius: 50px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-block;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 4px 15px rgba(230, 57, 70, 0.4);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(230, 57, 70, 0.6);
+    }
+
+    .btn-outline {
+      border: 2px solid white;
+      color: white;
+    }
+
+    .btn-outline:hover {
+      background: white;
+      color: var(--primary);
+      transform: translateY(-3px);
+    }
+
+    .scroll-down {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+      font-size: 2rem;
+      animation: bounce 2s infinite;
+      cursor: pointer;
+    }
+
+    /* Navigation */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      transition: all 0.4s ease;
+    }
+
+    nav.scrolled {
+      padding: 0.8rem 2rem;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(10px);
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+    }
+
+    .logo i {
+      margin-right: 10px;
+      font-size: 1.8rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+    }
+
+    nav a {
+      margin-left: 1.5rem;
+      text-decoration: none;
+      color: #444;
+      font-weight: 500;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background-color: var(--primary);
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover {
+      color: var(--primary);
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    .auth-btn {
+      background: var(--primary);
+      color: white;
+      padding: 8px 20px;
+      border-radius: 50px;
+      margin-left: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .auth-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(230, 57, 70, 0.3);
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Menu Section */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .menu-card {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      overflow: hidden;
+      transition: all 0.4s ease;
+      transform: translateY(20px);
+      opacity: 0;
+    }
+
+    .menu-card.visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-10px) !important;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+
+    .menu-img {
+      height: 200px;
+      width: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .menu-card:hover .menu-img {
+      transform: scale(1.1);
+    }
+
+    .menu-content {
+      padding: 1.5rem;
+    }
+
+    .menu-content h4 {
+      margin: 0 0 0.5rem;
+      font-size: 1.3rem;
+      color: var(--primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .menu-content p {
+      color: #666;
+      margin-bottom: 1rem;
+    }
+
+    .price {
+      font-weight: bold;
+      color: var(--dark);
+      font-size: 1.2rem;
+    }
+
+    .add-to-cart {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .add-to-cart i {
+      margin-right: 8px;
+    }
+
+    .add-to-cart:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    /* Sections */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    section {
+      margin-bottom: 4rem;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-header h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-header h2::after {
+      content: '';
+      position: absolute;
+      width: 70px;
+      height: 4px;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary);
+    }
+
+    .section-header p {
+      color: #666;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* About Section */
+    .about-content {
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+    }
+
+    .about-img {
+      flex: 1;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .about-img img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .about-img:hover img {
+      transform: scale(1.05);
+    }
+
+    .about-text {
+      flex: 1;
+    }
+
+    .about-text h3 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: var(--dark);
+    }
+
+    .about-text p {
+      margin-bottom: 1rem;
+      color: #555;
+    }
+
+    .signature {
+      font-style: italic;
+      color: var(--primary);
+      font-weight: bold;
+    }
+
+    /* Booking Section */
+    .booking-container {
+      display: flex;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .booking-img {
+      flex: 1;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .booking-img img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .booking-form {
+      flex: 1;
+      background: white;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #555;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.2);
+      outline: none;
+    }
+
+    textarea.form-control {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .submit-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      font-size: 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .submit-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(214, 40, 40, 0.4);
+    }
+
+    /* Contact Section */
+    .contact-container {
+      display: flex;
+      gap: 3rem;
+    }
+
+    .contact-info {
+      flex: 1;
+    }
+
+    .contact-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+      margin-bottom: 2rem;
+      transition: all 0.3s ease;
+    }
+
+    .contact-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .contact-card h3 {
+      color: var(--dark);
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+    }
+
+    .contact-detail {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .contact-detail i {
+      color: var(--primary);
+      font-size: 1.2rem;
+      margin-right: 15px;
+      margin-top: 3px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 2rem;
+    }
+
+    .social-link {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #f1f1f1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #555;
+      transition: all 0.3s ease;
+    }
+
+    .social-link:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-3px);
+    }
+
+    .contact-map {
+      flex: 1;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      height: 500px;
+    }
+
+    .contact-map iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--dark);
+      color: white;
+      padding: 4rem 0 2rem;
+      text-align: center;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .footer-col {
+      flex: 1;
+      min-width: 250px;
+      text-align: left;
+    }
+
+    .footer-col h3 {
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      font-size: 1.3rem;
+    }
+
+    .footer-col p {
+      margin-bottom: 1rem;
+      color: #ddd;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-links a {
+      color: #ddd;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+
+    .footer-bottom {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 99;
+    }
+
+    .back-to-top.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      background: var(--primary-dark);
+      transform: translateY(-5px);
+    }
+
+    /* Notification */
+    .notification {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--success);
+      color: white;
+      padding: 15px 25px;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      transform: translateX(150%);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+    }
+
+    .notification.show {
+      transform: translateX(0);
+    }
+
+    .notification i {
+      margin-right: 10px;
+      font-size: 1.2rem;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 992px) {
+      .about-content, .booking-container, .contact-container {
+        flex-direction: column;
+      }
+      
+      .about-img, .booking-img, .contact-info, .contact-map {
+        width: 100%;
+      }
+      
+      header h1 {
+        font-size: 2.8rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+      
+      .nav-links {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 70px);
+        background: white;
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem 0;
+        transition: all 0.4s ease;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      }
+      
+      .nav-links.active {
+        left: 0;
+      }
+      
+      nav a {
+        margin: 1rem 0;
+      }
+      
+      header h1 {
+        font-size: 2.5rem;
+      }
+      
+      .header-btns {
+        flex-direction: column;
+        width: 80%;
+      }
+      
+      .btn {
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+      
+      .section-header h2 {
+        font-size: 2rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      header h1 {
+        font-size: 2rem;
+      }
+      
+      header p {
+        font-size: 1rem;
+      }
+      
+      .container {
+        padding: 2rem 1rem;
+      }
+      
+      .auth-container {
+        width: 95%;
+      }
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { 
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+      40% { transform: translateY(-20px) translateX(-50%); }
+      60% { transform: translateY(-10px) translateX(-50%); }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
+    /* Floating elements */
+    .floating {
+      animation: float 3s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body>
+  <!-- Preloader -->
+  <div class="preloader">
+    <div class="loader"></div>
+  </div>
+
+  <!-- Auth Modal -->
+  <div class="auth-modal" id="authModal">
+    <div class="auth-container">
+      <span class="close-auth" id="closeAuth">&times;</span>
+      <div class="auth-tabs">
+        <div class="auth-tab active" data-tab="login">Login</div>
+        <div class="auth-tab" data-tab="signup">Sign Up</div>
+      </div>
+      <div class="auth-content">
+        <form class="auth-form active" id="loginForm">
+          <div class="form-group">
+            <label for="loginEmail">Email</label>
+            <input type="email" id="loginEmail" required>
+          </div>
+          <div class="form-group">
+            <label for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" required>
+          </div>
+          <button type="submit" class="submit-btn">Login</button>
+        </form>
+        <form class="auth-form" id="signupForm">
+          <div class="form-group">
+            <label for="signupName">Full Name</label>
+            <input type="text" id="signupName" required>
+          </div>
+          <div class="form-group">
+            <label for="signupEmail">Email</label>
+            <input type="email" id="signupEmail" required>
+          </div>
+          <div class="form-group">
+            <label for="signupPassword">Password</label>
+            <input type="password" id="signupPassword" required>
+          </div>
+          <div class="form-group">
+            <label for="signupConfirm">Confirm Password</label>
+            <input type="password" id="signupConfirm" required>
+          </div>
+          <button type="submit" class="submit-btn">Sign Up</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification -->
+  <div class="notification" id="notification">
+    <i class="fas fa-check-circle"></i>
+    <span id="notificationText">Item added to cart!</span>
+  </div>
+
+  <!-- Navigation -->
+  <nav id="navbar">
+    <div class="logo">
+      <i class="fas fa-utensils"></i>
+      <span>JeeMoNa Catering</span>
+    </div>
+    <div class="menu-toggle" id="menuToggle">
+      <i class="fas fa-bars"></i>
+    </div>
+    <div class="nav-links" id="navLinks">
+      <a href="#about">About</a>
+      <a href="#menu">Menu</a>
+      <a href="#booking">Booking</a>
+      <a href="#contact">Contact</a>
+      <a href="#" class="auth-btn" id="openAuth">Login</a>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <header>
+    <div class="header-content">
+      <h1>Delicious Moments Catered for You</h1>
+      <p>Experience the finest catering services with our authentic flavors and impeccable presentation for your special occasions</p>
+      <div class="header-btns">
+        <a href="#booking" class="btn btn-primary">Book Now</a>
+        <a href="#menu" class="btn btn-outline">View Menu</a>
+      </div>
+    </div>
+    <div class="scroll-down" id="scrollDown">
+      <i class="fas fa-chevron-down"></i>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+    <!-- About Section -->
+    <section id="about">
+      <div class="section-header">
+        <h2>About Us</h2>
+        <p>Discover the story behind our passion for food and hospitality</p>
+      </div>
+      <div class="about-content">
+        <div class="about-img floating">
+          <img src="https://images.unsplash.com/photo-1555244162-803834f70033?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Our Team">
+        </div>
+        <div class="about-text">
+          <h3>Our Journey</h3>
+          <p>We're a trio of friends brought together by our shared love for food and hospitality. What started as a passion project in our kitchens has grown into <strong>JeeMoNa Catering Services</strong> — a heartfelt service built on trust, flavor, and unforgettable experiences.</p>
+          <p>Each of us brings something unique to the table: from traditional Indian family recipes passed down through generations, to fresh, modern takes on classic dishes. Whether it's a cozy family gathering, a grand wedding, or a corporate event, we pour our hearts into every meal we serve.</p>
+          <p>We may have started small, but our dreams (and appetites) are big. And now, we're here to bring those flavors to your table.</p>
+          <p class="signature">From our kitchen to your celebration — with love,<br>JeeMoNa Catering Services</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu">
+      <div class="section-header">
+        <h2>Our Menu</h2>
+        <p>Explore our delicious offerings crafted with love and tradition</p>
+      </div>
+      
+      <h3 class="menu-category">Breakfast</h3>
+      <div class="menu-grid">
+        <div class="menu-card">
+          <img src="Veg Tiffins.jpg" alt="Vegetarian Tiffins" class="menu-img">
+          <div class="menu-content">
+            <h4>Veg Tiffins <span class="price">₹80</span></h4>
+            <p>Serves Tiffins with chutnies, podies, curd</p>
+            <button class="add-to-cart"><i class="fas fa-plus"></i> Add to Order</button>
+          </div>
+        </div>
+        <div class="menu-card">
+          <img src="Non Veg Tiffins.jpg" alt="Non-Vegetarian Tiffins" class="menu-img">
+          <div class="menu-content">
+            <h4>Non Veg Tiffins <span class="price">₹150</span></h4>
+            <p>Serves Tiffins with Non-veg Curries and Fries.</p>
+            <button class="add-to-cart"><i class="fas fa-plus"></i> Add to Order</button>
+          </div>
+        </div>
+        <div class="menu-card">
+          <img src="Tiffins.jpg" alt="Customized Menu" class="menu-img">
+          <div class="menu-content">
+            <h4>Customized Menu <span class="price">₹200</span></h4>
+            <p>We Serve Food As Your wanted menu list.</p>
+            <button class="add-to-cart"><i class="fas fa-plus"></i> Add to Order</button>
+          </div>
+        </div>
+      </div>
+      
+      <h3 class="menu-category">Lunch</h3>
+      <div class="menu-grid">
+        <div class="menu-card">
+          <img src="veg meals.jpg" alt="Vegetarian Meals" class="menu-img">
+          <div class="menu-content">
+            <h4>Veg Meals <span class="price">₹180</span></h4>
+            <p>Serve pure veg curries with rice and sweets.</p>
+            <button class="add-to-cart"><i class="fas fa-plus"></i> Add to Order</button>
+          </div>
+        </div>
+        <div class="menu-card">
+          <img src="Non Veg Meals.jpg" alt="Non-Vegetarian Meals" class="menu-img">
+          <div class="menu-content">
+            <h4>Non Veg Meals <span class="price">₹320</span></h4>
+            <p>Serve non-veg curries and fries with rice and sweets.</p>
+            <button class="add-to-cart"><i class="fas fa-plus"></i> Add to Order</button>
+          </div>
+        </div>
+        <div class="menu-card">
+          <img src="Customize meals.jpg" alt="Customized Meals" class="menu-img">
+          <div class="menu-content">
+            <h4>Customize Meals <span class="price">₹400</span></h4>
+            <p>We Serve Food As Your wanted menu list.</p>
+            <button class="add-to-cart"><i class="fas fa-plus"></i> Add to Order</button>
+          </div>
+        </div>
+      </div>
+      
+      <h3 class="menu-category">Dinner</h3>
+      <div class="menu-grid">
+        <div class="menu-card">
+          <img src="butter chicken.jpg" alt="Butter Chicken" class="menu-img">
+          <div class="menu-content">
+            <h4>Butter Chicken <span class="price">₹220</span></h4>
+            <p>Tender chicken cooked in a creamy tomato-based gravy.</p>
+            <button class="add-to-cart"><i class="fas fa-plus"></i> Add to Order</button>
+          </div>
+        </div>
+        <div class="menu-card">
+          <img src="rajma chawal.jpg" alt="Rajma Chawal" class="menu-img">
+          <div class="menu-content">
+            <h4>Rajma Chawal <span class="price">₹130</span></h4>
+            <p>Kidney beans curry served with steamed rice.</p>
+            <button class="add-to-cart"><i class="fas fa-plus"></i> Add to Order</button>
+          </div>
+        </div>
+        <div class="menu-card">
+          <img src="garlic naan.jpg" alt="Garlic Naan" class="menu-img">
+          <div class="menu-content">
+            <h4>Garlic Naan <span class="price">₹40</span></h4>
+            <p>Soft Indian bread topped with fresh garlic and coriander.</p>
+            <button class="add-to-cart"><i class="fas fa-plus"></i> Add to Order</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section id="booking">
+      <div class="section-header">
+        <h2>Book Our Services</h2>
+        <p>Reserve your date and let us handle the culinary experience</p>
+      </div>
+      <div class="booking-container">
+        <div class="booking-img floating">
+          <img src="https://images.unsplash.com/photo-1521012012373-6a85bade18da?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Catering Service">
+        </div>
+        <div class="booking-form">
+          <form id="bookingForm">
+            <div class="form-group">
+              <label for="name">Full Name</label>
+              <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" class="form-control" id="phone" name="phone" required>
+            </div>
+            <div class="form-group">
+              <label for="event">Event Type</label>
+              <select class="form-control" id="event" name="event" required>
+                <option value="" disabled selected>Select an event type</option>
+                <option value="wedding">Wedding</option>
+                <option value="corporate">Corporate</option>
+                <option value="birthday">Birthday</option>
+                <option value="anniversary">Anniversary</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="date">Event Date</label>
+              <input type="date" class="form-control" id="date" name="date" required>
+            </div>
+            <div class="form-group">
+              <label for="guests">Number of Guests</label>
+              <input type="number" class="form-control" id="guests" name="guests" min="10" required>
+            </div>
+            <div class="form-group">
+              <label for="details">Additional Details</label>
+              <textarea class="form-control" id="details" name="details" rows="4" placeholder="Tell us more about your event..."></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Submit Booking</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+      <div class="section-header">
+        <h2>Contact Us</h2>
+        <p>Get in touch for inquiries or special requests</p>
+      </div>
+      <div class="contact-container">
+        <div class="contact-info">
+          <div class="contact-card floating">
+            <h3>Contact Information</h3>
+            <div class="contact-detail">
+              <i class="fas fa-map-marker-alt"></i>
+              <div>
+                <h4>Address</h4>
+                <p>Viskhapatnam, Andhra Pradesh - 530009</p>
+              </div>
+            </div>
+            <div class="contact-detail">
+              <i class="fas fa-phone-alt"></i>
+              <div>
+                <h4>Phone</h4>
+                <p><a href="tel:+918688522371">+91 8688522371</a></p>
+              </div>
+            </div>
+            <div class="contact-detail">
+              <i class="fas fa-envelope"></i>
+              <div>
+                <h4>Email</h4>
+                <p><a href="mailto:jeemona@catering.com">jeemona@catering.com</a></p>
+              </div>
+            </div>
+            <div class="social-links">
+              <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+          <div class="contact-card floating">
+            <h3>Business Hours</h3>
+            <div class="contact-detail">
+              <i class="fas fa-clock"></i>
+              <div>
+                <p><strong>Monday - Friday:</strong> 9:00 AM - 9:00 PM</p>
+                <p><strong>Saturday - Sunday:</strong> 8:00 AM - 10:00 PM</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="contact-map">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15219.45411456536!2d83.3008565!3d17.7311625!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a39431389e6973f%3A0x73f395c9af5c4a3b!2sVisakhapatnam%2C%20Andhra%20Pradesh!5e0!3m2!1sen!2sin!4v1624456789012!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-col">
+        <h3>JeeMoNa Catering</h3>
+        <p>Delivering exceptional catering services with authentic flavors and impeccable presentation for all your special occasions.</p>
+        <div class="social-links">
+          <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h3>Quick Links</h3>
+        <ul class="footer-links">
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#menu">Our Menu</a></li>
+          <li><a href="#booking">Book Services</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Contact Info</h3>
+        <p><i class="fas fa-map-marker-alt"></i> Viskhapatnam, AP - 530009</p>
+        <p><i class="fas fa-phone-alt"></i> +91 8688522371</p>
+        <p><i class="fas fa-envelope"></i> jeemona@catering.com</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 JeeMoNa Catering Services. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Back to Top Button -->
+  <div class="back-to-top" id="backToTop">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
+  <script>
+    // Preloader
+    window.addEventListener('load', function() {
+      const preloader = document.querySelector('.preloader');
+      setTimeout(() => {
+        preloader.classList.add('fade-out');
+        setTimeout(() => {
+          preloader.style.display = 'none';
+        }, 500);
+      }, 1000);
+    });
+
+    // Mobile Menu Toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    
+    menuToggle.addEventListener('click', function() {
+      navLinks.classList.toggle('active');
+      menuToggle.innerHTML = navLinks.classList.contains('active') ? 
+        '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+    });
+
+    // Close mobile menu when clicking a link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+          navLinks.classList.remove('active');
+          menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+        }
+      });
+    });
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', function() {
+      const nav = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    });
+
+    // Scroll to sections
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Scroll down button
+    document.getElementById('scrollDown').addEventListener('click', function() {
+      window.scrollTo({
+        top: document.getElementById('about').offsetTop - 80,
+        behavior: 'smooth'
+      });
+    });
+
+    // Back to top button
+    const backToTop = document.getElementById('backToTop');
+    
+    window.addEventListener('scroll', function() {
+      if (window.pageYOffset > 300) {
+        backToTop.classList.add('active');
+      } else {
+        backToTop.classList.remove('active');
+      }
+    });
+    
+    backToTop.addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Auth Modal
+    const authModal = document.getElementById('authModal');
+    const openAuth = document.getElementById('openAuth');
+    const closeAuth = document.getElementById('closeAuth');
+    const authTabs = document.querySelectorAll('.auth-tab');
+    const authForms = document.querySelectorAll('.auth-form');
+    
+    openAuth.addEventListener('click', function(e) {
+      e.preventDefault();
+      authModal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    });
+    
+    closeAuth.addEventListener('click', function() {
+      authModal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    });
+    
+    authTabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+        const tabName = this.getAttribute('data-tab');
+        
+        authTabs.forEach(t => t.classList.remove('active'));
+        authForms.forEach(f => f.classList.remove('active'));
+        
+        this.classList.add('active');
+        document.getElementById(tabName + 'Form').classList.add('active');
+      });
+    });
+    
+    // Close modal when clicking outside
+    window.addEventListener('click', function(e) {
+      if (e.target === authModal) {
+        authModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+    });
+
+    // Form submissions
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      showNotification('Logged in successfully!');
+      authModal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+      openAuth.textContent = 'My Account';
+    });
+    
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      showNotification('Account created successfully!');
+      authModal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+      openAuth.textContent = 'My Account';
+    });
+    
+    document.getElementById('bookingForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      showNotification('Booking request submitted! We will contact you shortly.');
+      this.reset();
+    });
+
+    // Add to cart functionality
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+      button.addEventListener('click', function() {
+        const itemName = this.parentElement.querySelector('h4').textContent.split('₹')[0].trim();
+        showNotification(`${itemName} added to your order!`);
+      });
+    });
+
+    // Notification function
+    function showNotification(message) {
+      const notification = document.getElementById('notification');
+      const notificationText = document.getElementById('notificationText');
+      
+      notificationText.textContent = message;
+      notification.classList.add('show');
+      
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 3000);
+    }
+
+    // Intersection Observer for animations
+    const sections = document.querySelectorAll('section');
+    const menuCards = document.querySelectorAll('.menu-card');
+    
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -100px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+    
+    sections.forEach(section => {
+      observer.observe(section);
+    });
+    
+    menuCards.forEach((card, index) => {
+      observer.observe(card);
+      card.style.transitionDelay = `${index * 0.1}s`;
+    });
+
+    // Floating animation for elements
+    const floatingElements = document.querySelectorAll('.floating');
+    floatingElements.forEach((el, index) => {
+      el.style.animationDelay = `${index * 0.2}s`;
+    });
+  </script>
+</body>
+</html>
